@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Kalender bearbeiten</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    main { max-width: 760px; }
+    .karte {
+      background: var(--creme);
+      color: #2a1a12;
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    .karte h2 { margin-top: 0; color: var(--rot); font-size: 1.3rem; }
+    label { display: block; font-weight: bold; margin: 0.8rem 0 0.3rem; }
+    input, textarea, select {
+      width: 100%;
+      font: inherit;
+      font-size: 1rem;
+      padding: 0.5rem;
+      border: 1px solid #b9a98f;
+      border-radius: 6px;
+      background: #fff;
+      color: #2a1a12;
+    }
+    textarea { min-height: 4.5rem; resize: vertical; }
+    .zeile { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .zeile > div { flex: 1 1 160px; }
+    button.haupt {
+      font: inherit;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--rot);
+      color: #fff;
+      cursor: pointer;
+    }
+    button.haupt:disabled { opacity: 0.5; cursor: wait; }
+    button.neben {
+      font: inherit;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--rot);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--rot);
+      cursor: pointer;
+    }
+    .leiste {
+      position: sticky;
+      bottom: 0;
+      background: var(--nacht);
+      padding: 0.8rem 0;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .meldung { flex: 1; min-width: 200px; }
+    .meldung.fehler { color: #ff9a9a; }
+    .meldung.ok { color: #9ff0b0; }
+    .hinweis { font-size: 0.9rem; opacity: 0.8; }
+    .versteckt { display: none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kalender bearbeiten</h1>
+    <p>Änderungen sind nach dem Speichern nach ca. 1 Minute auf der Website sichtbar.</p>
+  </header>
+
+  <main>
+    <section id="anmeldung" class="karte versteckt">
+      <h2>Zugang</h2>
+      <p>Öffne diese Seite über den <strong>geheimen Bearbeitungslink</strong> oder füge hier den GitHub-Zugangsschlüssel (Token) ein.</p>
+      <label for="token-eingabe">GitHub-Token</label>
+      <input id="token-eingabe" type="password" autocomplete="off" placeholder="github_pat_…">
+      <p><button id="token-ok" class="haupt" type="button">Weiter</button></p>
+    </section>
+
+    <form id="formular" class="versteckt">
+      <section class="karte">
+        <h2>Allgemein</h2>
+        <label for="f-titel">Titel</label>
+        <input id="f-titel" type="text">
+        <label for="f-untertitel">Untertitel</label>
+        <input id="f-untertitel" type="text">
+        <div class="zeile">
+          <div>
+            <label for="f-jahr">Jahr</label>
+            <input id="f-jahr" type="number" min="2020" max="2100">
+          </div>
+          <div>
+            <label for="f-tage">Anzahl Türchen</label>
+            <select id="f-tage">
+              <option value="24">24 (1. – 24. Dezember)</option>
+              <option value="31">31 (ganzer Dezember)</option>
+            </select>
+          </div>
+        </div>
+        <p class="hinweis">Ein Türchen lässt sich auf der Website erst ab seinem Tag öffnen.</p>
+        <p><button id="link-kopieren" class="neben" type="button">Geheimen Bearbeitungslink kopieren</button></p>
+      </section>
+
+      <section class="karte">
+        <h2>Türchen</h2>
+        <div id="felder"></div>
+      </section>
+
+      <div class="leiste">
+        <button id="speichern" class="haupt" type="submit">Speichern</button>
+        <span id="meldung" class="meldung" role="status"></span>
+      </div>
+    </form>
+  </main>
+
+  <script src="bearbeiten.js"></script>
+</body>
+</html>
